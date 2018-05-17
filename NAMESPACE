@@ -1,7 +1,11 @@
 exportPattern("^[[:alpha:]]+")
 
+export('fitBabyMonitor')
+
+
 importFrom("graphics", "plot", "segments")
 importFrom("stats", "as.formula", "coef", "complete.cases", "cov",
 		 "lm", "median", "model.matrix", "pnorm", "quantile",
 		 "rbinom", "rnorm", "vcov")
-importFrom("truncnorm", 'rtruncnorm')
+importFrom("truncnorm", "rtruncnorm")
+importFrom("Matrix", "Matrix")
