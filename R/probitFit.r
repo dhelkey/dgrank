@@ -16,7 +16,7 @@ probitFit = function(y, X,  prior_var_vec, iters = 100){
 	trunc_limits[y==1, 2] = Inf
 	
 	sampleZ = function(beta_vec){
-		#Samples z given beta 
+		#Samples z given beta from truncated normal distribtion
 		rtruncnorm(n, trunc_limits[ ,1], trunc_limits[ ,2], 
 							mean =  as.numeric(X %*% beta_vec))
 							

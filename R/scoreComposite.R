@@ -10,16 +10,6 @@ scoreComposite = function(returner_list, alpha = 0.05){
     #Outputs:
     #      inst_mat
 
-
-   pointQuantile = function(x_mat, alpha){
-	#Helper function
-        #Helper function to obtain estimates and quantiles
-        #Input x_mat - (iter X p) matrix
-        return(list(point = apply(x_mat, 2, median),
-        range = apply(x_mat,2 , quantile, probs = c(alpha, 1-alpha)))
-        )
-    }
-
 ##Preprocess Returner List to be safe
 for (i in 1:length(returner_list)){
 	temp = returner_list[[i]]

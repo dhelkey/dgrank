@@ -17,3 +17,13 @@ toDG = function(coef_mat, count_vec){
     z_mat = coef_mat_transform %*% diag(sqrt(1 / diag( cov(coef_mat_transform))))
     return(z_mat)
 }
+
+
+   pointQuantile = function(x_mat, alpha){
+	#Helper function
+        #Helper function to obtain estimates and quantiles
+        #Input x_mat - (iter X p) matrix
+        return(list(point = apply(x_mat, 2, median),
+        range = apply(x_mat,2 , quantile, probs = c(alpha, 1-alpha)))
+        )
+    }
