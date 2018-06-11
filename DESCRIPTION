@@ -1,15 +1,18 @@
 Package: dgrank
 Type: Package
-Title: Functions 
+Title:Provides Funtions for Ranking Institution Performance on Binary Outcomes
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Author: person("Daniel", "Helkey", email = "dhelkey@ucsc.edu")
+Maintainer: Daniel Helkey (daniel.x16@gmail.com)
+Description: (non informative priors...)More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: MIT
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Imports: 
     Matrix,
+	MASS,
     truncnorm
+Suggests:
+	ggplot2
