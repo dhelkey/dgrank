@@ -1,12 +1,20 @@
-modelMatrix = function(x, interactions = FALSE, sparse = TRUE, intercept = FALSE){
-    #Creates a design matrix from a data frame, using [0-1] indicator variables 
-	#Note, names of categorical variables will change slightly 
-	#	(n-1 unique values appended to name)
-	
-    #Factors use treatment encoding ("one-hot" encoding)
-	#	 i.e. indicator variables for 2nd through nth level
+modelMatrix = function(x,
+	interactions = FALSE, 
+	sparse = TRUE,
+	intercept = FALSE){
+	#' Create design matrix from data frame
+	#'
+	#' \code{modelMatrix} takes in a data.frame and encodes it as a model.matrix object.
+	#' Factors use treatment ("one-hot") encoding, creating indicator variables from categorical
+	#' and binary variables.
+    #' Note that names of categorical variables will change slightly 
+	#'	(n-1 unique values appended to name)
+	#'
+	#' @param x  A data.frame with finite, non-missing elements.
+	#' @param interactions Logical; if \code{TRUE} then all interactions included.
+	#' @param sparse Logical; if \code{TRUE} then output a sparse Matrix object.
+	#' @param intercept Logcal; if \code{TRUE} then include a leading column of 1's.
 	if(is.null(x))return(NULL) #Dealing w/ empty data
-
 	if (sum(!sapply(x, is.finite)) != 0){
 		stop('Creating model matrix requires all input elements be finite')}
 	
