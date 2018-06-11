@@ -1,24 +1,3 @@
-toDG = function(coef_mat, count_vec){
-    #Reparameteriz coefficients to satisfy D-G constraint and convert to Z-scores
-    #Coefficients should be baseline encoded, i.e. first coefficient is intercept
-	#
-	#Inputs:
-	#	coef_mat - institution coefficient matrix with MCMC iterations as the rows
-	#	count_vec - Number of observations per institution
-	
-    coef_mat[ ,1] = 0 #Reparametrize
-    p = dim(coef_mat)[2]
-
-    #Construct x-form mat
-    xform_mat=diag(1,p)-replicate(p,count_vec)/sum(count_vec)
-    coef_mat_transform = coef_mat %*% xform_mat
-    
-    #Return z-scores 
-    z_mat = coef_mat_transform %*% diag(sqrt(1 / diag( cov(coef_mat_transform))))
-    return(z_mat)
-}
-
-
    pointQuantile = function(x_mat, alpha){
 	#Helper function
         #Helper function to obtain estimates and quantiles
@@ -27,3 +6,15 @@ toDG = function(coef_mat, count_vec){
         range = apply(x_mat,2 , quantile, probs = c(alpha, 1-alpha)))
         )
     }
+	
+posteriorCredible = function(mcmc_mat, alpha = 0.05, est_fun = median){
+	#Compute 1-alpha% credible interval and point estimate
+	#Input:
+	#      mcmc_mat: IxP matrix with iterations stored in rows.
+	#Output:
+	#      data.frame P rows and three columns (post_est, lower, upper)
+	out_frame = data.frame(post_est = apply(mcmc_mat, 2, est_fun))
+	out_frame[ ,c('lower', 'upper')] = t(apply(mcmc_mat, 2, quantile,
+											probs = c(alpha, 1-alpha)) )                    
+	return(out_frame)
+}
