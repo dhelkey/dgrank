@@ -36,5 +36,7 @@ modelMatrix = function(x,
 	mat = data.frame(mat[ ,nonempty_indices])
 	colnames(mat) = n_vec[nonempty_indices]
 
-    return( as.matrix(mat) )
+	mat = as.matrix(mat)
+	if (sparse){mat = as(mat,'sparseMatrix')}
+   return( mat)
 }
