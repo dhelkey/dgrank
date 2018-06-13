@@ -1,5 +1,15 @@
 designBased = function(gamma, outcome_vec, pcf_cat_vec, instid_vec){
-	#Implement design based approach and compute O, E, and z vectors
+	#' Compute Design Based Draper-Gittoes Z-Scores
+	#'
+	#'	\code{designBased} implements design based approach and
+	#' computes O, E, and z vectors following Draper-Gittoes (2004)
+	#'
+	#' @param gamma TODO
+	#' @param outcome_vec TODO
+	#' @param pcf_cat_vec TODO
+	#' @param instid_vec TODO
+	
+	#TODO input checks 
 
 	#Some of the inputs need to be factors
 	pcf_cat_vec = as.factor(pcf_cat_vec)

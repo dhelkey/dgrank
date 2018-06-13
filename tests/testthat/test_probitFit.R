@@ -18,7 +18,7 @@ y = rbinom(n, 1,
 #Inference
 mcmc_iters = probitFit(y, X, prior_var_vec,
                        iters = iters)
-mcmc_iters_k = probitFit(y, X, prior_var_vec,
+mcmc_iters_k = probitFitk(y, X, prior_var_vec,
                          iters = iters)
 
 beta_hat = apply(mcmc_iters, 2, median)

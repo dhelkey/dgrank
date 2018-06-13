@@ -9,3 +9,5 @@ importFrom("stats", "as.formula", "coef", "complete.cases", "cov",
 		 "rbinom", "rnorm", "vcov")
 importFrom("truncnorm", "rtruncnorm")
 importFrom("Matrix", "Matrix")
+importFrom("methods", "as")
+importFrom("MASS", "mvrnorm")

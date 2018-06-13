@@ -9,12 +9,14 @@ df_full = data.frame(outcome = c(1,1,0,0,0,1,0),
                      w = c(1,1,1,1,1,1,1),
                 weird = c(NaN, NA, NA, 1, Inf, NaN, 1 ))
 df = df_full[-7] #Version w/o weird values
+df = df_full[-7] #Version w/o weird values
 n = dim(df)[1] #Number of observations
 
 test_that("Handles edge cases and weird values", {
   expect_equal(modelMatrix(NULL), NULL)
   expect_error(modelMatrix(df_full))
 })
+#
 
 test_that('Works on a variety of variable types',{
   expect_equal( c(modelMatrix(df$outcome, sparse = FALSE)),

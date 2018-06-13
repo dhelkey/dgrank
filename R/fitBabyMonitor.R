@@ -5,7 +5,8 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
                         fit_method = 'probit', 
 						sparse = TRUE, burn_in = 100,
                         iters = 1000,  alpha = 0.1, 
-						verbose = TRUE){					  
+						verbose = TRUE){
+	#' Fit Baby-MONITOR for CPQCC/VON
 	#Inputs:
 	#		minimal_data: 
 	#		num_cat: Scalar number of categorical variables 

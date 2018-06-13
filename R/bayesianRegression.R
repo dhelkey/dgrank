@@ -1,8 +1,9 @@
 bayesianRegression = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
-	#Requires truncnorm package
-    #Assumes prior mean centered at 0
-    #TODO prior mean and proior cov need input checks
-    ##Written by Daniel Kirsner
+	#' MCMC Samples of Bayesian Linear Regression
+	#'
+	#' \code{bayesianRegression} generates MCMC samples from Bayesian Linear Regression.
+	#' Assumes prior mean centered at 0.
+    #' Written by Daniel Kirsner
     n = length(y)
 	p = dim(X)[2]  	
 	stopifnot(length(prior_var_vec) == p)

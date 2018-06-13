@@ -11,7 +11,7 @@ modelMatrix(x, interactions = FALSE, sparse = TRUE, intercept = FALSE)
 
 \item{interactions}{Logical; if \code{TRUE} then all interactions included.}
 
-\item{sparse}{Logical; if \code{TRUE} then output a sparce Matrix object.}
+\item{sparse}{Logical; if \code{TRUE} then output a sparse Matrix object.}
 
 \item{intercept}{Logcal; if \code{TRUE} then include a leading column of 1's.}
 }

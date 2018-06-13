@@ -13,7 +13,7 @@ nullSimulate = function(minimal_data, num_cat, num_cont,
     
     ##Fit with probit IGNORING institution 
     null_fit = probitFit(dat$outcome_vec, dat$no_inst_mat,
-                        dat$no_inst_var_vec, iter = mc_iters + burn_in)
+                        dat$no_inst_var_vec, iters = mc_iters + burn_in)
     null_fit = null_fit[-(1:burn_in), ] #Rows are MCMC iter, cols are beta coefs
 
     #COnvert to individual level probabilities (assuming Probit regression)
