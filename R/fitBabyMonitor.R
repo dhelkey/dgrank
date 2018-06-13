@@ -7,6 +7,9 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
                         iters = 1000,  alpha = 0.1, 
 						verbose = TRUE){
 	#' Fit Baby-MONITOR for CPQCC/VON
+	#'
+	#' \code{fitBabyMonitor} comprehensivly applys the Baby-MONITOR score
+	# to
 	#Inputs:
 	#		minimal_data: 
 	#		num_cat: Scalar number of categorical variables 

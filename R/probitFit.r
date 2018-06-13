@@ -41,7 +41,7 @@ probitFit = function(y, X,  prior_var_vec, iters = 100, diagnostic = TRUE){
 	#Helper function to sample Z|... from truncated normal
 	sampleZ = function(beta_vec){
 		#Samples z given beta from truncated normal distribtion
-		rtruncnorm(n, trunc_limits[ ,1], trunc_limits[ ,2], 
+		truncnorm::rtruncnorm(n, trunc_limits[ ,1], trunc_limits[ ,2], 
 							mean =  as.numeric(X %*% beta_vec))							
 	}
 	
