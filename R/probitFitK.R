@@ -22,7 +22,7 @@ probitFitk = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
     	chol(XpX/1+diag(1/prior_var_vec, ncol = p)),
 	diag(p))
     mcmc_betas = matrix(0, nrow = iters, ncol = p)
-    mcmc_latent=rtruncnorm(n,lower,upper, as.numeric(X%*%mcmc_betas[1,])) 
+    mcmc_latent=truncnorm::rtruncnorm(n,lower,upper, as.numeric(X%*%mcmc_betas[1,])) 
     for(i in 2:iters)
       {
         #first perform regression on latent normals
@@ -32,7 +32,7 @@ probitFitk = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
         btilde= b1 %*% b2
         mcmc_betas[i,] = t(replicate(1,as.vector(btilde))) + rnorm(p)%*%t(IR)
         #Conditional on the regression coefficients, generate truncated normals
-        mcmc_latent=rtruncnorm(n,lower,upper,as.numeric(X%*%mcmc_betas[i,]))
+        mcmc_latent=truncnorm::rtruncnorm(n,lower,upper,as.numeric(X%*%mcmc_betas[i,]))
 		
 		
       }

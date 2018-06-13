@@ -8,7 +8,8 @@ scoreComposite = function(returner_list, alpha = 0.05, type = 'inst'){
 #' @param returner_list List of lists, each element should be the return value (a list) from fitBabyMonitor
 #' @param alpha Constructs (1-alpha)% posterior intervals for the composite score
 #' @param	mode Type of fitting to be done. 'inst' or 'subset_baseline' or 'subset_nobaseline'
-    #
+   
+   #
     #Outputs:
     #      inst_mat
 

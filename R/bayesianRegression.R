@@ -14,6 +14,6 @@ bayesianRegression = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
 	y_aug = as.numeric(y_aug)
 	
 	bayesian_model=lm(y_aug~0+X_aug) #, weights = 1/prior_var_vec) 
-	mcmc_mat=mvrnorm(iters,coef(bayesian_model), vcov(bayesian_model))
+	mcmc_mat=MASS::mvrnorm(iters,coef(bayesian_model), vcov(bayesian_model))
     return(mcmc_mat)
 }

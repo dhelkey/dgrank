@@ -10,5 +10,5 @@ fitBabyMonitor(minimal_data, num_cat, num_cont, var_intercept, var_inst,
   iters = 1000, alpha = 0.1, verbose = TRUE)
 }
 \description{
-Fit Baby-MONITOR for CPQCC/VON
+\code{fitBabyMonitor} comprehensivly applys the Baby-MONITOR score
 }

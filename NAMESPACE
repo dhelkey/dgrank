@@ -7,7 +7,6 @@ importFrom("graphics", "plot", "segments")
 importFrom("stats", "as.formula", "coef", "complete.cases", "cov",
 		 "lm", "median", "model.matrix", "pnorm", "quantile",
 		 "rbinom", "rnorm", "vcov")
-importFrom("truncnorm", "rtruncnorm")
+		 
 importFrom("Matrix", "Matrix")
 importFrom("methods", "as")
-importFrom("MASS", "mvrnorm")
