@@ -1,19 +1,25 @@
 Package: dgrank
-Title: What The Package Does (one line, title case required)
-Version: 0.1
-Authors@R: person("Daniel", "Helkey", email = "dhelkey@ucsc.edu",
-                  role = c("aut", "cre"))
-Description: What the package does (one paragraph)
+Title: Construct Draper-Gittoes Rankings of Institutions
+Version: 0.9
+Authors@R: c(person("Daniel", "Helkey", email = "dhelkey@ucsc.edu",
+                  role = c("aut", "cre")),
+				person("Daniel", "Kirsner", role = "aut"),
+				person("David", "Draper", role = "ctb"),
+				person("Jessica", "Liu", role = "ctb"))
+Description: Provides functions for ranking institions with respect to binary outcome performance. 
+    Rankings are computed according to Draper-Gittoes (2004) methodology. Functions are provided
+		to generate composite scores. Main function intended for CPQCC/VON usage, but fast functions are
+		provided for Bayesian linear and probit regression.
 Depends: R (>= 3.1.0)
 License: MIT
 LazyData: true
 Imports:
     Matrix,
-	MASS,
     truncnorm,
-	methods
+  	methods
 Suggests:
 	ggplot2,
     testthat,
+	MASS,
 	sas7bdat
 RoxygenNote: 6.0.1

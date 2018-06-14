@@ -9,12 +9,12 @@ scoreComposite(returner_list, alpha = 0.05, type = "inst")
 \arguments{
 \item{returner_list}{List of lists, each element should be the return value (a list) from fitBabyMonitor}
 
-\item{alpha}{Constructs (1-alpha)% posterior intervals for the composite score}
+\item{alpha}{Constructs (1-alpha)"\%" posterior intervals for the composite score}
 
 \item{mode}{Type of fitting to be done. 'inst' or 'subset_baseline' or 'subset_nobaseline'}
 }
 \description{
-Constructs composite scores as well 
-as (1-alpha)% confidence intervals from scores on multiple performance indicators
+Constructs composite scores as well
+as (1-alpha)% confidence intervals from scores on multiple performance indicators.
 Composite scores constructed by taking the average of each score
 }
