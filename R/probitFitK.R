@@ -17,7 +17,7 @@ probitFitk = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
     #TODO assert correct dimension for mean and var vecs...
 
     #precompute to make regression faster
-    XpX=crossprod(X)
+    XpX=Matrix::crossprod(X)
     IR=backsolve(
     	chol(XpX/1+diag(1/prior_var_vec, ncol = p)),
 	diag(p))
@@ -26,8 +26,8 @@ probitFitk = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
     for(i in 2:iters)
       {
         #first perform regression on latent normals
-        Xpy=crossprod(X,mcmc_latent)
-		b1 = crossprod(t(IR))
+        Xpy=Matrix::crossprod(X,mcmc_latent)
+		b1 = Matrix::crossprod(t(IR))
 		b2 = Xpy/sigmasq+diag(1/prior_var_vec, ncol = p)%*%prior_mean
         btilde= b1 %*% b2
         mcmc_betas[i,] = t(replicate(1,as.vector(btilde))) + rnorm(p)%*%t(IR)

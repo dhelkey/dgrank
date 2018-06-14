@@ -175,8 +175,14 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 			'probit' = probitFit,
 			'probitk' = probitFitk,
 	        'bayesianregression' = bayesianRegression)
+message(dim(model_matrix))
+message(length(outcome_vec))
+
+return(list(outcome_vec = outcome_vec, model_matrix = model_matrix))
+
 	mcmc_fit = fit_Fun(outcome_vec, model_matrix, prior_var_vec, 
 					iters = burn_in + iters)
+					
 	mcmc_fit = mcmc_fit[ -(1:burn_in),  ] #Remove burn-in
 	colnames(mcmc_fit) = coefs
 	

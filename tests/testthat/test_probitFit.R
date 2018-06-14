@@ -1,10 +1,10 @@
 context("probitFit")
 
 #Initialize parameters
-n = 1000
-iters = 100
-p = 4
-prior_var = 12
+n = 100
+iters = 10000
+p = 2
+prior_var = 9
 
 #Generate sample data
 b_vec = rnorm(p, mean = 0, sd = 5)
@@ -34,3 +34,16 @@ test_that('Check outputs', {
   expect_gt(min(apply(mcmc_iters, 2, var)),
             0) #Parameters should have positive posterior variance
 })
+
+
+##Make sure it works with sparce matrices
+p = 10
+n = 100
+y = rbinom(n, 1, 0.5)
+X = Matrix::Matrix( rbinom(n * p, 1, 0.5), ncol = p)
+prior_var_vec = rep(10, p)
+
+test_that('Sparce Matricis works', {
+    expect_error(probitFit(y, X, prior_var_vec), NA)
+})
+

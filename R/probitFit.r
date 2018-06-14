@@ -1,12 +1,10 @@
 probitFit = function(y, X,  prior_var_vec, iters = 100, diagnostic = TRUE){
-	#' MCMC Samples of Bayesian Probit Regression
-	#'
-	#' \code{probitFit} generates  MCMC samples of Probit regression, 
-	#' following Albert and Chib (1993)
-	#' Uses truncnorm package to sample from truncated normal	
-	#' Assumes prior centered at 0, and diagonal prior covariance structure
-	#' Assumes response y is coded as 0-1
-	
+	#Generate MCMCM samples of Probit regression, following
+	#Albert and Chib (1993)
+	#Rquires truncnorm package to sample from truncated normal	
+	#Assumes prior centered at 0, and diagonal prior covariance structure
+	#Assumes response y is coded as 0-1
+
 	#Number of coefficients
 	n = dim(X)[1]
 	p = dim(X)[2]
@@ -17,21 +15,15 @@ probitFit = function(y, X,  prior_var_vec, iters = 100, diagnostic = TRUE){
 	trunc_limits[y==0 ,1] = -Inf
 	trunc_limits[y==1, 2] = Inf
 		
-	#Start MCMC algorithm at Least-Squares estimate (guarenteed to exist w/ nonzero prior variance)
-	XtX = crossprod(X)
-	Xty = crossprod(X,y)
+
 	
 	#Precompute Cholesky decomposition (to efficiently sample from multivariate normal)
+	XtX = Matrix::crossprod(X)
+	Xty = Matrix::crossprod(X,y)
 	A = XtX + B_inv
-	R =chol(A) #Cholesky decomposition: A = t(R) %*% R
+	R = chol(A) #Cholesky decomposition: A = t(R) %*% R
 
-	linCholSolver = function(R, y){
-		#Solve from upper triangular
-		#TODO check R is upper triangular?
-		q = forwardsolve(t(R), y)
-		return(backsolve(R, q))
-	}
-	
+	#Start MCMC algorithm at Least-Squares estimate (guarenteed to exist w/ nonzero prior variance)
 	beta_ls = linCholSolver(R, Xty)
 
 	#Generate the normal rancom variates outside of loop
@@ -51,7 +43,7 @@ probitFit = function(y, X,  prior_var_vec, iters = 100, diagnostic = TRUE){
 	z_latent = sampleZ(beta_mat[1, ])
 	for (i in 2:iters){
 		#Gibbs sample beta given z
-		Xtz = crossprod(X, z_latent)
+		Xtz = Matrix::crossprod(X, z_latent)
 		beta_z = linCholSolver(R,  Xtz)
 		beta_mat[i, ] =  as.numeric(beta_z +
 			backsolve(R, rnorm_mat[i, ]))
