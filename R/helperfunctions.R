@@ -1,14 +1,25 @@
    pointQuantile = function(x_mat, alpha){
-	#Helper function
-        #Helper function to obtain estimates and quantiles
-        #Input x_mat - (iter X p) matrix
+	#' Generate Point Estimates and Posterior Credible Intervals
+	#'
+	#' \code{pointQuantile} Returns a list with the point estimate
+    #' and the upper and lower bounds for a 1-alpha "\%" credible interval.
+	#'
+	#' @param x_mat <Ixp> matrix of MCMC iterations
+	#' @param alpha real valued scalar in [0,1]
         return(list(point = apply(x_mat, 2, median),
         range = apply(x_mat,2 , quantile, probs = c(alpha, 1-alpha)))
         )
     }
 	
 posteriorCredible = function(mcmc_mat, alpha = 0.05, est_fun = median){
-	#Compute 1-alpha% credible interval and point estimate
+	#' Compute Credible Interval and Point Estimate
+	#' 
+	#' TODO There is redundancy between this and pointQuantile. resolve into 1 function.
+	#'
+	#' @param mcmc_mat TODO
+	#' @param alpha TODO
+	#' @param est_fun TODO
+	
 	#Input:
 	#      mcmc_mat: IxP matrix with iterations stored in rows.
 	#Output:

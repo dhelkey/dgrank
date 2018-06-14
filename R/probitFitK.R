@@ -1,8 +1,18 @@
 probitFitk = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
-	#Requires truncnorm package
-  #Assumes prior mean centered at 0
-    #TODO prior mean and proior cov need input checks
-    ##Written by Daniel Kirsner
+	#' MCMC Samples for Probit Regression
+	#'
+	#' \code{probitFit} generates MCMCM samples of Probit regression, following
+	#' the data-augmentation Gibbs sampler of Albert and Chib (1993).
+	#' Written by Daniel Kirsner
+	#' Requires truncnorm package to sample from truncated normal.
+	#' Assumes prior centered at 0, and diagonal prior covariance structure.
+	#' Assumes response y is coded as 0-1.
+	#'
+	#' @param y <nX1> observed data vector
+	#' @param X <nXp> design matrix (takes objects of class matrix or sparce Matrix)
+	#' @param prior_var_vec <px1> prior variance vector
+	#' @param iters Integer; number of desired output iterations
+	#' @param sigmasq TODO
     n = length(y)
     p = dim(X)[2]  
 

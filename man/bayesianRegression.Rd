@@ -6,6 +6,17 @@
 \usage{
 bayesianRegression(y, X, prior_var_vec, iters = 100, sigmasq = 1)
 }
+\arguments{
+\item{y}{<nX1> observed data vector}
+
+\item{X}{<nXp> design matrix (takes objects of class matrix or sparce Matrix)}
+
+\item{prior_var_vec}{<px1> prior variance vector}
+
+\item{iters}{Integer; number of desired output iterations}
+
+\item{sigmasq}{TODO}
+}
 \description{
 \code{bayesianRegression} generates MCMC samples from Bayesian Linear Regression.
 Assumes prior mean centered at 0.

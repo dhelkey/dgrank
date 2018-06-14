@@ -11,7 +11,7 @@ Description: Provides functions for ranking institions with respect to binary ou
 		to generate composite scores. Main function intended for CPQCC/VON usage, but fast functions are
 		provided for Bayesian linear and probit regression.
 Depends: R (>= 3.1.0)
-License: MIT
+License: MIT + file LICENSE
 LazyData: true
 Imports:
     Matrix,

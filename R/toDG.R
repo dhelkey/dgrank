@@ -1,13 +1,17 @@
 toDG = function(coef_mat, count_vec, baseline = FALSE){
-    #Reparameteriz coefficients to satisfy D-G constraint and convert to Z-scores
-    #Coefficients should be baseline encoded, i.e. first coefficient is intercept
-	#
-	#Inputs:
-	#	coef_mat - institution coefficient matrix with MCMC iterations as the rows
-	#	count_vec - Number of observations per institution
-	#   baseline - If TRUE, the first coefficient is constrained to be zero
-	#				and the Draper-Gittoes constraint is not satisfied
-    
+    #' Convert MCMC Coefficients to Z-Scores Following Draper-Gittoes
+	#'
+	#' \code{toDG} reparamatrizes a matrix of MCMC coefficients into Draper-Gittoes
+    #' Z-Scores with a linear transformation. The dot product of the Z-scores and
+	#' the count_vec is constrained to be 0.
+	#'
+	#' @param coef_mat <IXp> coefficient matrix, with I MCMCM iterations.
+	#'    The first column should be the overall intercept.
+	#' @param count_vec <px1> vector of integers, total number of observations
+	#'    per institution or group.
+	#' @param baseline Logical; If TRUE, the first coeffient is constrained to be
+	#'     0, and the D-G constraint is not satisfied. 
+
     p = dim(coef_mat)[2]
 	n = dim(coef_mat)[1]
 	

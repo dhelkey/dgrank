@@ -5,7 +5,27 @@ nullSimulate = function(minimal_data, num_cat, num_cont,
                        mc_iters = 10,
                        iters = 10,
                        burn_in = 10){
-
+	#' Null Simulations for D-G Z-Scores
+	#'
+	#' \code{nullSimulate} creates D-G Z-scores for a null world where all
+	#' institutions have the same latent quality measure. 
+	#'
+	#' @param minimal_data TODO
+	#' @param num_cat TODO
+	#' @param num_cont TODO
+	#' @param var_intercept TODO
+	#' @param var_inst TODO
+	#' @param var_cat TODO
+	#' @param var_cat_2way TODO
+	#' @param var_cont TODO
+	#' @param var_subset TODO
+	#' @param var_inst_subset_2way TODO
+	#' @param visualize TODO
+	#' @param mc_iters TODO
+	#' @param iters TODO
+	#' @param burn_in TODO
+	
+	
     #Leverage the function we already have
     dat = fitBabyMonitor(minimal_data, num_cat,
                             num_cont,

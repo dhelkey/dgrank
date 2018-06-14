@@ -9,7 +9,24 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 	#' Fit Baby-MONITOR for CPQCC/VON
 	#'
 	#' \code{fitBabyMonitor} comprehensivly applys the Baby-MONITOR score
-	# to
+	# to a \code{minimal_data} file. Designed for CPQCC/VON applications.
+	#' @param minimal_data TODO
+	#' @param num_cat TODO
+	#' @param num_cont TODO
+	#' @param var_intercept TODO
+	#' @param var_inst TODO
+	#' @param var_cat TODO
+	#' @param var_cat_2way TODO
+	#' @param var_cont TODO
+	#' @param var_subset TODO
+	#' @param var_inst_subset_2way TODO
+	#' @param iters TODO
+	#' @param burn_in TODO
+	#' @param sparse TODO
+	#' @param alpha TODO
+	#' @param verbose TODO
+	#' @param subset TODO
+	#' @param fit_method TODO
 	#Inputs:
 	#		minimal_data: 
 	#		num_cat: Scalar number of categorical variables 

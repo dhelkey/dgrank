@@ -9,6 +9,41 @@ fitBabyMonitor(minimal_data, num_cat, num_cont, var_intercept, var_inst,
   subset = FALSE, fit_method = "probit", sparse = TRUE, burn_in = 100,
   iters = 1000, alpha = 0.1, verbose = TRUE)
 }
+\arguments{
+\item{minimal_data}{TODO}
+
+\item{num_cat}{TODO}
+
+\item{num_cont}{TODO}
+
+\item{var_intercept}{TODO}
+
+\item{var_inst}{TODO}
+
+\item{var_cat}{TODO}
+
+\item{var_cat_2way}{TODO}
+
+\item{var_cont}{TODO}
+
+\item{var_subset}{TODO}
+
+\item{var_inst_subset_2way}{TODO}
+
+\item{subset}{TODO}
+
+\item{fit_method}{TODO}
+
+\item{sparse}{TODO}
+
+\item{burn_in}{TODO}
+
+\item{iters}{TODO}
+
+\item{alpha}{TODO}
+
+\item{verbose}{TODO}
+}
 \description{
 \code{fitBabyMonitor} comprehensivly applys the Baby-MONITOR score
 }

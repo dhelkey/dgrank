@@ -25,7 +25,7 @@ beta_hat = apply(mcmc_iters, 2, median)
 beta_hat_k = apply(mcmc_iters_k, 2, median)
 
 test_that("Approximatly Daniel K's results", {
-  expect_equal(beta_hat, beta_hat_k, tolerance = 0.2)
+  expect_equal(beta_hat, beta_hat_k, tolerance = 0.25)
 })
 
 test_that('Check outputs', {

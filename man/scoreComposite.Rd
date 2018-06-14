@@ -11,7 +11,7 @@ scoreComposite(returner_list, alpha = 0.05, type = "inst")
 
 \item{alpha}{Constructs (1-alpha)"\%" posterior intervals for the composite score}
 
-\item{mode}{Type of fitting to be done. 'inst' or 'subset_baseline' or 'subset_nobaseline'}
+\item{type}{Type of fitting to be done. 'inst' or 'subset_baseline' or 'subset_nobaseline'}
 }
 \description{
 Constructs composite scores as well
