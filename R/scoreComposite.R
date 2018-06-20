@@ -7,7 +7,72 @@ scoreComposite = function(returner_list, alpha = 0.05, type = 'inst'){
 #'
 #' @param returner_list List of lists, each element should be the return value (a list) from fitBabyMonitor
 #' @param alpha Constructs (1-alpha)"\%" posterior intervals for the composite score
-#' @param type Type of fitting to be done. 'inst' or 'subset_baseline' or 'subset_nobaseline'
+#' @param type Type of fitting to be done. 'inst' for institution composite scores
+#'				'subset_baseline' or 'subset_nobaseline' for subset rankings
+#'				'inst_subset_nobaseline' or 'inst_subset_baseline' for subset within institution rankings
+
+##The process is slightly different for institution specific subset ranking
+inst_subset = c('inst_subset_nobaseline', 'inst_subset_baseline')
+if (type %in% inst_subset){
+	
+	codeFun = function(x){paste(x, collapse = '-')}
+	##First loop through and process
+	save_list = list()
+	for (i in 1:length(returner_list)){
+		if (type == 'inst_subset_nobaseline'){
+				unique_id_mat = returner_list[[i]]$subset_nobaseline_mat[ ,c('inst', 'subset_cat')]
+				mcmc_mat = returner_list[[i]]$inst_subset_nobaseline_mat
+		} else if (type == 'inst_subset_baseline'){
+			unique_id_mat = returner_list[[i]]$subset_baseline_mat[ ,c('inst', 'subset_cat')]
+			mcmc_mat = returner_list[[i]]$inst_subset_baseline_mat
+		}
+		unique_id = apply(unique_id_mat, 1, codeFun)
+		save_list[[i]] = list( unique_id_mat = unique_id_mat, 
+						mcmc_mat = mcmc_mat,
+						unique_id = unique_id)
+	}
+
+	##Get the overall list of unique ids
+	iters = returner_list[[1]]$iters
+	
+	code_mat = do.call(rbind, lapply(save_list, function(x) x$unique_id_mat))
+	code_mat = code_mat[ order(code_mat[ ,1], code_mat[,2]), ]
+	id_list = apply(code_mat, 1, codeFun)
+	unique_id_list = unique(id_list)
+	
+	#Set up storage
+	composite_mat = matrix(0, nrow = iters, ncol =  length(unique_id_list))
+	count_vec = rep(0, length(unique_id_list))
+	
+	for (i in 1:length(returner_list)){
+		indices = unique_id_list %in% save_list[[i]]$unique_id 
+		composite_mat[ ,indices] = composite_mat[ ,indices] + save_list[[i]]$mcmc_mat
+		count_vec[indices] = count_vec[indices] + 1
+	}
+	
+	if (min(count_vec) != max(count_vec)){
+	message('Min number of scores in composite is ', min(count_vec) )
+	}
+    #Take avg
+    composite_mat = t( t(composite_mat) / count_vec)
+
+    #Take median and quaniles to get a range for scores
+    point_and_range = pointQuantile(composite_mat, alpha)
+	
+	#Compile Data
+	inst_mat = data.frame(unique_id = unique_id_list,
+						point_estimate = point_and_range$point,
+						lower = point_and_range$range[1, ],
+						upper = point_and_range$range[2, ], 
+						n_composite = count_vec)
+	
+	#COnvert the codes back into inst and subset
+	id_indices = match(unique_id_list, id_list)
+	inst_mat$inst = code_mat[id_indices, 1]
+	inst_mat$subset = code_mat[id_indices, 2]
+
+	return(inst_mat[ ,c('inst', 'subset', 'point_estimate', 'lower', 'upper', 'n_composite')])
+}
 
 	#Find the identifying variables and mcmc mat, math is the same in each case
 	iters = 'iters'	
@@ -53,7 +118,6 @@ for (i in 1:length(returner_list)){
     #Go through indicators and add to matrix
      for (returner in returner_list){
         indices = group_list %in% returner[[g_lab]]
-		#print(dim(composite_mat[ ,indices]))
         #Add to dg_z to composite mat and add 1 to count_vec
         composite_mat[ ,indices] = composite_mat[ ,indices] + returner[[mcmc_mat]]
         count_vec[indices] = count_vec[indices] + 1
@@ -69,6 +133,7 @@ for (i in 1:length(returner_list)){
     point_and_range = pointQuantile(composite_mat, alpha)
     inst_mat = data.frame(id = group_list, point_estimate = point_and_range$point,
                   lower = point_and_range$range[1, ],
-                  upper = point_and_range$range[2, ])    
+                  upper = point_and_range$range[2, ], 
+				  n_composite = count_vec)    
     return(inst_mat)
 }

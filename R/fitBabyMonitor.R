@@ -4,7 +4,7 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 						subset = FALSE, 
                         fit_method = 'probit', 
 						sparse = TRUE, burn_in = 100,
-                        iters = 1000,  alpha = 0.1, 
+                        iters = 1000,  alpha = 0.05, 
 						verbose = TRUE){
 	#' Fit Baby-MONITOR for CPQCC/VON
 	#'
@@ -76,7 +76,7 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 	unique_subset_vec = NULL
 	if (subset){unique_subset_vec = sort(unique(subset_vec)) }
 	
-    #Categorical risk adjusters
+    #Extract categorical risk adjusters
 	cat_var_mat = NULL
 	if (num_cat > 0){
 		cat_var_locat = var_start_index:(var_start_index + num_cat - 1)
@@ -88,7 +88,7 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 		}
 	}
 	
-	#Continious risk adjusters
+	#Extract continious risk adjusters
     cont_var_mat = NULL
     if (num_cont > 0){
 		cont_var_locat = (var_start_index + num_cat):(var_start_index + num_cat + num_cont - 1)
@@ -253,6 +253,7 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 							subset_cat = NULL,
 							post_est = NULL, 
 							lower = NULL, upper = NULL)
+	inst_subset_nobaseline_mat = inst_subset_baseline_mat = NULL
 	
 	
 	if (subset){
@@ -315,6 +316,10 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 			
 			subset_baseline_mat = rbind(subset_baseline_mat, baseline_temp)
 			subset_nobaseline_mat = rbind(subset_nobaseline_mat, nobaseline_temp)
+			
+			#TODO stop storing the intermediate....get rid of subset_list 
+			inst_subset_baseline_mat = cbind(inst_subset_baseline_mat, subset_list[[i]]$baseline_z)
+			inst_subset_nobaseline_mat = cbind(inst_subset_nobaseline_mat, subset_list[[i]]$dg_z)
 		}
 	}
 	
@@ -359,7 +364,9 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 				full_subset_mat_nobaseline = full_subset_mat_nobaseline,
 				subset_fit_baseline = subset_fit_baseline,
 				subset_fit_nobaseline = subset_fit_nobaseline,
-				unique_subset_vec = unique_subset_vec)
+				unique_subset_vec = unique_subset_vec,
+				inst_subset_baseline_mat = inst_subset_baseline_mat,
+				inst_subset_nobaseline_mat = inst_subset_nobaseline_mat)
 	if (verbose) {message('Fit Complete')}
 	return(returner)
 }
