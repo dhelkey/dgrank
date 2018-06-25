@@ -168,7 +168,7 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 	cont_vars_coefs = colnames(cont_mat)
 	
 	#Build model additively
-	model_matrix = Matrix(cbind(main_mat, cat_mat, cont_mat), sparse = sparse)  
+	model_matrix = Matrix::Matrix(cbind(main_mat, cat_mat, cont_mat), sparse = sparse)  
 	
 	#Save location of coefficients
 	coefs = colnames(model_matrix)
