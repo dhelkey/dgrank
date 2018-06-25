@@ -4,13 +4,14 @@ designBased = function(gamma, outcome_vec, pcf_cat_vec, instid_vec){
 	#'	\code{designBased} implements design based approach and
 	#' computes O, E, and z vectors following Draper-Gittoes (2004)
 	#'
-	#' @param gamma TODO
-	#' @param outcome_vec TODO
-	#' @param pcf_cat_vec TODO
-	#' @param instid_vec TODO
+	#' @param gamma Parameter in [0,1] controling pooling.
+	#' Gamma = 1 is complete global pooling, gamma = 0 is complete local pooling.
+	#' @param outcome_vec Vector with elements in {0,1} denoting the binary outcome.
+	#' @param pcf_cat_vec Vector with unique values for each PCF category.
+	#' @param instid_vec Vector with unique values for each institution.
 	
-	#TODO input checks 
-
+	stopifnot( all( outcome_vec %in% c(0,1)) )
+		
 	#Some of the inputs need to be factors
 	pcf_cat_vec = as.factor(pcf_cat_vec)
 	instid_vec = as.factor(instid_vec)

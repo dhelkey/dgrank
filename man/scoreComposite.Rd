@@ -11,7 +11,9 @@ scoreComposite(returner_list, alpha = 0.05, type = "inst")
 
 \item{alpha}{Constructs (1-alpha)"\%" posterior intervals for the composite score}
 
-\item{type}{Type of fitting to be done. 'inst' or 'subset_baseline' or 'subset_nobaseline'}
+\item{type}{Type of fitting to be done. 'inst' for institution composite scores
+'subset_baseline' or 'subset_nobaseline' for subset rankings
+'inst_subset_nobaseline' or 'inst_subset_baseline' for subset within institution rankings}
 }
 \description{
 Constructs composite scores as well

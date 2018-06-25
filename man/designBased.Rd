@@ -7,13 +7,14 @@
 designBased(gamma, outcome_vec, pcf_cat_vec, instid_vec)
 }
 \arguments{
-\item{gamma}{TODO}
+\item{gamma}{Parameter in [0,1] controling pooling.
+Gamma = 1 is complete global pooling, gamma = 0 is complete local pooling.}
 
-\item{outcome_vec}{TODO}
+\item{outcome_vec}{Vector with elements in {0,1} denoting the binary outcome.}
 
-\item{pcf_cat_vec}{TODO}
+\item{pcf_cat_vec}{Vector with unique values for each PCF category.}
 
-\item{instid_vec}{TODO}
+\item{instid_vec}{Vector with unique values for each institution.}
 }
 \description{
 \code{designBased} implements design based approach and

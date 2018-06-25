@@ -7,43 +7,79 @@
 fitBabyMonitor(minimal_data, num_cat, num_cont, var_intercept, var_inst,
   var_cat, var_cat_2way, var_cont, var_subset = 1, var_inst_subset_2way = 1,
   subset = FALSE, fit_method = "probit", sparse = TRUE, burn_in = 100,
-  iters = 1000, alpha = 0.1, verbose = TRUE)
+  iters = 1000, alpha = 0.05, verbose = TRUE)
 }
 \arguments{
-\item{minimal_data}{TODO}
+\item{minimal_data}{Data_frame with a particular format:
 
-\item{num_cat}{TODO}
+1st column: Outcome vector (0-1 encoding)
 
-\item{num_cont}{TODO}
+2nd column: Institution ID
 
-\item{var_intercept}{TODO}
+3rd column (if subset == TRUE): 
 
-\item{var_inst}{TODO}
+Next: num_cat columns of categorical variables (num_cat can equal 0)
 
-\item{var_cat}{TODO}
+Next: num_cont columns of continuous variables (num_cont can equal 0)}
 
-\item{var_cat_2way}{TODO}
+\item{num_cat}{Scalar number of categorical variables.}
 
-\item{var_cont}{TODO}
+\item{num_cont}{Number of continuous variables.}
 
-\item{var_subset}{TODO}
+\item{var_intercept}{Prior variance for intercept parameter.}
 
-\item{var_inst_subset_2way}{TODO}
+\item{var_inst}{Prior variance for institution parameters.}
 
-\item{subset}{TODO}
+\item{var_cat}{Prior variance for categorical parameters.}
 
-\item{fit_method}{TODO}
+\item{var_cat_2way}{Prior variance for categorical interaction parameters.}
 
-\item{sparse}{TODO}
+\item{var_cont}{Prior variance for continuous parameters.}
 
-\item{burn_in}{TODO}
+\item{var_subset}{Prior variance for subset parameters.}
 
-\item{iters}{TODO}
+\item{var_inst_subset_2way}{Prior variance for subset interaction parameters.}
 
-\item{alpha}{TODO}
+\item{subset}{If TRUE, perform subset fitting tasks}
 
-\item{verbose}{TODO}
+\item{fit_method}{Analysis method. Options: 'probit' for Probit Regression, 'bayesianregression' for 
+Bayesian linear regression, and 'probitk' for a Probit Regression implementation written by Daniel Kirsner.}
+
+\item{sparse}{Should design_matrix be stored as Sparse matrix? Requires Matrix package.}
+
+\item{burn_in}{Number of initial iterations to discard for burn in.}
+
+\item{iters}{Number of MCMC iterations to use.}
+
+\item{alpha}{We look at posterior (1-alpha)\% posterior intervals.}
+
+\item{verbose}{If TRUE, display status messages while fitting}
+}
+\value{
+Returns a large list with the following components:
+
+	inst_mat: Matrix (one row per institution) computing summary statistics, D-G institution ranking, and intervals
+
+	     full_subset_mat_baseline, full_subset_mat_nobaseline: Matrix with rankings and intervals for the various subset categories.
+
+
+    subset_baseline_mat, subset_nobaseline_mat: Matrix with rankings and intervals for subset categories within institution. 
+
+
+	group_labels: A vector of the names of each institution
+
+    mcmc_fit: Matrix of MCMC iterations for each coefficient
+	dg_z: Matrix of computed z score for each institution at each MCMC iterations.
+
+	coefs: Names of each coefficient (1st is intercept, then institution, then everything else)
+
+	prior_var_vec: Vector of prior variances for each coefficient
+
+	model_matrix: Design matrix
 }
 \description{
-\code{fitBabyMonitor} comprehensivly applys the Baby-MONITOR score
+\code{fitBabyMonitor} comprehensively applies the Baby-MONITOR score
+Returns a large list. Use inst_mat for institution rankings, 
+full_subset_mat_baseline and full_subset_mat_nobaseline for subset rankings,
+and subset_baseline_mat and subset_nobaseline_mat for subset rankings within institution.
 }

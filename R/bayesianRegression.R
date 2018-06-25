@@ -1,4 +1,4 @@
-bayesianRegression = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
+bayesianRegression = function(y, X,  prior_var_vec, iters = 100){
 	#' MCMC Samples of Bayesian Linear Regression
 	#'
 	#' \code{bayesianRegression} generates MCMC samples from Bayesian Linear Regression.
@@ -8,7 +8,6 @@ bayesianRegression = function(y, X,  prior_var_vec, iters = 100, sigmasq=1){
 	#' @param X <nXp> design matrix (takes objects of class matrix or sparce Matrix)
 	#' @param prior_var_vec <px1> prior variance vector
 	#' @param iters Integer; number of desired output iterations
-	#' @param sigmasq TODO
     n = length(y)
 	p = dim(X)[2]  	
 	stopifnot(length(prior_var_vec) == p)

@@ -4,7 +4,7 @@
 \alias{bayesianRegression}
 \title{MCMC Samples of Bayesian Linear Regression}
 \usage{
-bayesianRegression(y, X, prior_var_vec, iters = 100, sigmasq = 1)
+bayesianRegression(y, X, prior_var_vec, iters = 100)
 }
 \arguments{
 \item{y}{<nX1> observed data vector}
@@ -14,8 +14,6 @@ bayesianRegression(y, X, prior_var_vec, iters = 100, sigmasq = 1)
 \item{prior_var_vec}{<px1> prior variance vector}
 
 \item{iters}{Integer; number of desired output iterations}
-
-\item{sigmasq}{TODO}
 }
 \description{
 \code{bayesianRegression} generates MCMC samples from Bayesian Linear Regression.

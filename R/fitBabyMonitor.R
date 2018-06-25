@@ -8,52 +8,65 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 						verbose = TRUE){
 	#' Fit Baby-MONITOR for CPQCC/VON
 	#'
-	#' \code{fitBabyMonitor} comprehensivly applys the Baby-MONITOR score
+	#' \code{fitBabyMonitor} comprehensively applies the Baby-MONITOR score
 	# to a \code{minimal_data} file. Designed for CPQCC/VON applications.
-	#' @param minimal_data TODO
-	#' @param num_cat TODO
-	#' @param num_cont TODO
-	#' @param var_intercept TODO
-	#' @param var_inst TODO
-	#' @param var_cat TODO
-	#' @param var_cat_2way TODO
-	#' @param var_cont TODO
-	#' @param var_subset TODO
-	#' @param var_inst_subset_2way TODO
-	#' @param iters TODO
-	#' @param burn_in TODO
-	#' @param sparse TODO
-	#' @param alpha TODO
-	#' @param verbose TODO
-	#' @param subset TODO
-	#' @param fit_method TODO
-	#Inputs:
-	#		minimal_data: 
-	#		num_cat: Scalar number of categorical variables 
-	#		num_cont: Number of continious variables
-	#		var_intercept, var_inst, var_cat, var_cat_2way, var_cont, var_subset, var_inst_subset_2way: Prior variances for each type of coefficient
-	#		subset: Is analysis to be conducted with a subset variable? 
-	#		sparse: Store w/ sparce matrices, requires Matrix package
-	#		visualize: (Boolean) If TRUE, display plot
-	#		fit_method: 'probit' or 'bayesianregression'
-	#		burn_in: Initial number of MCMC iterations to discard
-	# 		iters: Desired number of output MCMC iterations 
-	#		verbose: If TRUE, display diagosnitic messages
-	#		alpha: Constructs (1-alpha)% posterior intervals
-	#	
-	#Outputs:
-	#	Returns a large list with the following components:
-	#		inst_mat: Matrix (one row per institution) computing summary statistics, D-G instituiton ranking, and intervals
-	#		bayesian_z_ests: D-G instituion ranking (computed in inst_mat, returning here as well for convienence)
-	# 		group_labels: A vector of the names of each institution
-	#		mcmc_fit: Matrix of MCMC iterations for each coefficient
-	#		dg_z: Matrix of commputed z score for each instituion at each MCMC iterations+
-	#		coefs: Names of each coefficient (1st is intercept, then institution, then everything else)
-	#		prior_var_vec: Vector of prior variances for each coefficient
-	#		model_matrix: Design matrix 
-	#		dat: List that stores a few variables used by this function, e.g. number of instituions and number of individuals
-
-	##Sort in order of increassing inst_id (2nd column of minimal_data)
+	#' Returns a large list. Use inst_mat for institution rankings, 
+	#' full_subset_mat_baseline and full_subset_mat_nobaseline for subset rankings,
+	#' and subset_baseline_mat and subset_nobaseline_mat for subset rankings within institution.
+	#'
+	#' @param minimal_data Data_frame with a particular format:
+	#'
+	#' 1st column: Outcome vector (0-1 encoding)
+	#'
+	#' 2nd column: Institution ID
+	#'
+	#' 3rd column (if subset == TRUE): 
+	#'
+	#' Next: num_cat columns of categorical variables (num_cat can equal 0)
+	#'
+	#' Next: num_cont columns of continuous variables (num_cont can equal 0)
+	#'
+	#' @param num_cat Scalar number of categorical variables. 
+	#' @param num_cont Number of continuous variables.
+	#' @param var_intercept Prior variance for intercept parameter.
+	#' @param var_inst Prior variance for institution parameters.
+	#' @param var_cat Prior variance for categorical parameters.
+	#' @param var_cat_2way Prior variance for categorical interaction parameters.
+	#' @param var_cont Prior variance for continuous parameters.
+	#' @param var_subset Prior variance for subset parameters.
+	#' @param var_inst_subset_2way Prior variance for subset interaction parameters.
+	#' @param iters Number of MCMC iterations to use.
+	#' @param burn_in Number of initial iterations to discard for burn in.
+	#' @param sparse Should design_matrix be stored as Sparse matrix? Requires Matrix package.
+	#' @param alpha We look at posterior (1-alpha)\% posterior intervals. 
+	#' @param verbose If TRUE, display status messages while fitting
+	#' @param subset If TRUE, perform subset fitting tasks
+	#' @param fit_method Analysis method. Options: 'probit' for Probit Regression, 'bayesianregression' for 
+	#' Bayesian linear regression, and 'probitk' for a Probit Regression implementation written by Daniel Kirsner.
+	#'
+	#' @return
+	#'	Returns a large list with the following components:
+	#'
+	#'		inst_mat: Matrix (one row per institution) computing summary statistics, D-G institution ranking, and intervals
+	#'
+	#' 	     full_subset_mat_baseline, full_subset_mat_nobaseline: Matrix with rankings and intervals for the various subset categories.
+	#'
+	#'
+	#'	    subset_baseline_mat, subset_nobaseline_mat: Matrix with rankings and intervals for subset categories within institution. 
+	#'
+	#'
+	#'		group_labels: A vector of the names of each institution
+	#'
+	#'	    mcmc_fit: Matrix of MCMC iterations for each coefficient
+	#'		dg_z: Matrix of computed z score for each institution at each MCMC iterations.
+	#'
+	#'		coefs: Names of each coefficient (1st is intercept, then institution, then everything else)
+	#'
+	#'		prior_var_vec: Vector of prior variances for each coefficient
+	#'
+	#'		model_matrix: Design matrix 
+	
+	##Sort in order of increasing inst_id (2nd column of minimal_data)
 	minimal_data = minimal_data[order(minimal_data[ ,2]), ]
 
 	##Process inputs
@@ -88,7 +101,7 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 		}
 	}
 	
-	#Extract continious risk adjusters
+	#Extract continuous risk adjusters
     cont_var_mat = NULL
     if (num_cont > 0){
 		cont_var_locat = (var_start_index + num_cat):(var_start_index + num_cat + num_cont - 1)
@@ -117,10 +130,10 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 	if (verbose){
 		message('Processed data for ', N, ' individuals within ', p, ' institutions.')
 		message('Categorical Risk-adjusters: ', paste(colnames(cat_var_mat), collapse = ','))
-		message('Continious Risk-adjusters: ', paste(colnames(cont_var_mat), collapse = ','))
+		message('Continuous Risk-adjusters: ', paste(colnames(cont_var_mat), collapse = ','))
 	}
 
-	##Construct design matrix additivly and save certain kinds of coefficients
+	##Construct design matrix additivelyand save certain kinds of coefficients
 	#Main variables of interest (group, subgroup)
 	if (subset){
 			#intercept, inst coefficients, subset coefficients, interaction coefficients
@@ -147,21 +160,21 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 	cat_vars_2way_coefs = cat_vars_coefs[grep(":", cat_vars_coefs)]
 	cat_vars_1way_coefs = setdiff(cat_vars_coefs, cat_vars_2way_coefs)
 
-	#Continious risk adjusters
+	#Continuous risk adjusters
 	cont_mat = NULL
 	if (num_cont > 0){
 		cont_mat =  modelMatrix(cont_var_mat, sparse = sparse)
 	}
 	cont_vars_coefs = colnames(cont_mat)
 	
-	#Build model additivly
+	#Build model additively
 	model_matrix = Matrix(cbind(main_mat, cat_mat, cont_mat), sparse = sparse)  
 	
 	#Save location of coefficients
 	coefs = colnames(model_matrix)
 	num_coefs = dim(model_matrix)[2]
 	
-	#Integer location indices of commenly used coefficients
+	#Integer location indices of commonly used coefficients
 	locat_all_inst = which(coefs %in% all_inst_coefs)
 	locat_all_subset = c(1, which(coefs %in% subset_coefs))
 	
@@ -374,3 +387,5 @@ fitBabyMonitor = function(minimal_data, num_cat, num_cont,
 	
 	
 	
+
+
