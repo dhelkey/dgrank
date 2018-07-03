@@ -1,6 +1,6 @@
 Package: dgrank
 Title: Construct Draper-Gittoes Rankings of Institutions
-Version: 0.9
+Version: 1.0
 Authors@R: c(person("Daniel", "Helkey", email = "dhelkey@ucsc.edu",
                   role = c("aut", "cre")),
 				person("Daniel", "Kirsner", role = "aut"),
